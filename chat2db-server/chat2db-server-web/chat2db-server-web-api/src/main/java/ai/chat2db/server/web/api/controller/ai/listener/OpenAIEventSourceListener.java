@@ -44,7 +44,7 @@ public class OpenAIEventSourceListener extends EventSourceListener {
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         log.info("OpenAI返回数据：{}", data);
-        if (data.equals("[DONE]")) {
+        if ("[DONE]".equals(data)) {
             log.info("OpenAI返回数据结束了");
             sseEmitter.send(SseEmitter.event()
                 .id("[DONE]")
