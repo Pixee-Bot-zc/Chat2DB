@@ -1,5 +1,6 @@
 package ai.chat2db.server.web.start.config.interceptor;
 
+import io.github.pixee.security.Newlines;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public class CorsFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)res;
         HttpServletRequest request = (HttpServletRequest)req;
 
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader(HttpHeaders.ORIGIN));
+        response.setHeader("Access-Control-Allow-Origin", Newlines.stripAll(request.getHeader(HttpHeaders.ORIGIN)));
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
