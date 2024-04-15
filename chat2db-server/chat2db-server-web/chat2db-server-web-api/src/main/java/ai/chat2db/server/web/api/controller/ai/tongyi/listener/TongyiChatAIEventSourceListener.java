@@ -52,7 +52,7 @@ public class TongyiChatAIEventSourceListener extends EventSourceListener {
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         log.info("Tongyi Chat AI response data：{}", data);
-        if (data.equals("[DONE]")) {
+        if ("[DONE]".equals(data)) {
             log.info("Tongyi Chat AI closed");
             sseEmitter.send(SseEmitter.event()
                 .id("[DONE]")

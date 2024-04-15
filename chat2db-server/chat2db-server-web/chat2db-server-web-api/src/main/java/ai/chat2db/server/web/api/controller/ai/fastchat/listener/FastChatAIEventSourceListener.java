@@ -51,7 +51,7 @@ public class FastChatAIEventSourceListener extends EventSourceListener {
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         log.info("Fast Chat AI response data：{}", data);
-        if (data.equals("[DONE]")) {
+        if ("[DONE]".equals(data)) {
             log.info("Fast Chat AI closed");
             sseEmitter.send(SseEmitter.event()
                 .id("[DONE]")

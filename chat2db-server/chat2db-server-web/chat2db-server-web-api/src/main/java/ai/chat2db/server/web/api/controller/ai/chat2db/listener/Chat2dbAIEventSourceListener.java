@@ -55,7 +55,7 @@ public class Chat2dbAIEventSourceListener extends EventSourceListener {
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         log.info("Chat2db AI 返回数据：{}", data);
-        if (data.equals("[DONE]")) {
+        if ("[DONE]".equals(data)) {
             log.info("Chat2db AI 返回数据结束了");
             sseEmitter.send(SseEmitter.event()
                 .id("[DONE]")
