@@ -10,12 +10,14 @@ import ai.chat2db.plugin.sqlserver.builder.SqlServerSqlBuilder;
 import ai.chat2db.plugin.sqlserver.type.SqlServerColumnTypeEnum;
 import ai.chat2db.plugin.sqlserver.type.SqlServerDefaultValueEnum;
 import ai.chat2db.plugin.sqlserver.type.SqlServerIndexTypeEnum;
+import ai.chat2db.spi.CommandExecutor;
 import ai.chat2db.spi.MetaData;
 import ai.chat2db.spi.SqlBuilder;
 import ai.chat2db.spi.jdbc.DefaultMetaService;
 import ai.chat2db.spi.model.*;
 import ai.chat2db.spi.sql.SQLExecutor;
 import ai.chat2db.spi.util.SortUtils;
+import com.google.common.collect.Lists;
 import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.lang3.StringUtils;
 
@@ -73,10 +75,10 @@ public class SqlServerMetaData extends DefaultMetaService implements MetaData {
     @Override
     public String tableDDL(Connection connection, String databaseName, String schemaName, String tableName) {
         try {
-            SQLExecutor.getInstance().executeSql(connection, functionSQL.replace("tableSchema", schemaName),
+            SQLExecutor.getInstance().execute(connection, functionSQL.replace("tableSchema", schemaName),
                     resultSet -> null);
         } catch (Exception e) {
-            //log.error("创建函数失败", e);
+            //log.error("Failed to create function", e);
         }
 
         String ddlSql = "SELECT " + schemaName + ".ufn_GetCreateTableScript('" + schemaName + "', '" + tableName
@@ -391,5 +393,20 @@ public class SqlServerMetaData extends DefaultMetaService implements MetaData {
     @Override
     public String getMetaDataName(String... names) {
         return Arrays.stream(names).filter(name -> StringUtils.isNotBlank(name)).map(name -> "[" + name + "]").collect(Collectors.joining("."));
+    }
+
+    @Override
+    public CommandExecutor getCommandExecutor() {
+        return new SqlServerCommandExecutor();
+    }
+
+    @Override
+    public List<String> getSystemDatabases() {
+        return systemDatabases;
+    }
+
+    @Override
+    public List<String> getSystemSchemas() {
+        return systemSchemas;
     }
 }
