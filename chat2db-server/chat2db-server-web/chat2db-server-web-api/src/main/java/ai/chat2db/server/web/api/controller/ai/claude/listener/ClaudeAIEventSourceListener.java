@@ -43,7 +43,7 @@ public class ClaudeAIEventSourceListener extends EventSourceListener {
     @Override
     public void onEvent(EventSource eventSource, String id, String type, String data) {
         log.info("Claude AI data：{}", data);
-        if (data.equals("[DONE]")) {
+        if ("[DONE]".equals(data)) {
             log.info("Claude AI end");
             sseEmitter.send(SseEmitter.event()
                 .id("[DONE]")
