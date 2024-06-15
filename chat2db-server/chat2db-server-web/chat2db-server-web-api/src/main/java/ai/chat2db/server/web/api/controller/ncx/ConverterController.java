@@ -5,6 +5,7 @@ import ai.chat2db.server.tools.common.util.ConfigUtils;
 import ai.chat2db.server.web.api.controller.ncx.service.ConverterService;
 import ai.chat2db.server.web.api.controller.ncx.vo.UploadVO;
 import ai.chat2db.server.web.api.util.FileUtils;
+import io.github.pixee.security.Filenames;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class ConverterController {
     public DataResult<UploadVO> ncxUploadFile(@RequestParam("file") MultipartFile file) {
         log.info("Start uploading ncx");
         // Verify file suffix
-        String fileExtension = FileUtils.getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
+        String fileExtension = FileUtils.getFileExtension(Objects.requireNonNull(Filenames.toSimpleFileName(file.getOriginalFilename())));
         if (!fileExtension.equalsIgnoreCase(FileUtils.ConfigFile.NCX.name())) {
             return DataResult.error("1", "The uploaded file must be an ncx file！");
         }
@@ -56,7 +57,7 @@ public class ConverterController {
     @PostMapping("/dbp/upload")
     public DataResult<UploadVO> edbpUploadFile(@RequestParam("file") MultipartFile file) {
         // Verify file suffix
-        String fileExtension = FileUtils.getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
+        String fileExtension = FileUtils.getFileExtension(Objects.requireNonNull(Filenames.toSimpleFileName(file.getOriginalFilename())));
         if (!fileExtension.equalsIgnoreCase(FileUtils.ConfigFile.DBP.name())) {
             return DataResult.error("1", "The uploaded file must be a dbp file！");
         }

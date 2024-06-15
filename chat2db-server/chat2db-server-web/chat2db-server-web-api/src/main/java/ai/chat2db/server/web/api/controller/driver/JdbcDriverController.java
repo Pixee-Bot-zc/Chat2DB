@@ -1,5 +1,6 @@
 package ai.chat2db.server.web.api.controller.driver;
 
+import io.github.pixee.security.Filenames;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class JdbcDriverController {
         for (int i = 0; i < multipartFiles.length; i++) {
 
             MultipartFile multipartFile = multipartFiles[i];
-            String originalFilename = FilenameUtils.getName(multipartFile.getOriginalFilename());
+            String originalFilename = FilenameUtils.getName(Filenames.toSimpleFileName(multipartFile.getOriginalFilename()));
             String location = JdbcJarUtils.PATH + originalFilename;
             try {
                 multipartFile.transferTo(new File(location));
