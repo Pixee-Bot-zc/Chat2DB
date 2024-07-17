@@ -1,5 +1,6 @@
 package ai.chat2db.server.web.api.controller.rdb;
 
+import io.github.pixee.security.Newlines;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
@@ -118,7 +119,7 @@ public class RdbDmlExportController {
     private void doExportCsv(String sql, HttpServletResponse response, String fileName)
         throws IOException {
         response.setContentType("text/csv");
-        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".csv");
+        response.setHeader("Content-disposition", Newlines.stripAll("attachment;filename*=utf-8''" + fileName + ".csv"));
 
         ExcelWrapper excelWrapper = new ExcelWrapper();
         try {
@@ -147,7 +148,7 @@ public class RdbDmlExportController {
         String tableName)
         throws IOException {
         response.setContentType("text/sql");
-        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".sql");
+        response.setHeader("Content-disposition", Newlines.stripAll("attachment;filename*=utf-8''" + fileName + ".sql"));
 
         try (PrintWriter printWriter = response.getWriter()) {
             InsertWrapper insertWrapper = new InsertWrapper();

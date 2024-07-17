@@ -3,6 +3,7 @@ package ai.chat2db.server.web.api.controller.rdb.data.export.strategy;
 import ai.chat2db.server.domain.api.enums.ExportFileSuffix;
 import ai.chat2db.server.domain.api.param.datasource.DatabaseExportDataParam;
 import ai.chat2db.spi.sql.Chat2DBContext;
+import io.github.pixee.security.Newlines;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -53,7 +54,7 @@ public abstract class ExportDBDataStrategy {
 
     private void setResponseHeaders(DatabaseExportDataParam param, HttpServletResponse response) {
         response.setContentType(contentType);
-        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + getFileName(param) + ExportFileSuffix.ZIP.getSuffix());
+        response.setHeader("Content-disposition", Newlines.stripAll("attachment;filename*=utf-8''" + getFileName(param) + ExportFileSuffix.ZIP.getSuffix()));
     }
 
     protected String getFileName(DatabaseExportDataParam param) {
