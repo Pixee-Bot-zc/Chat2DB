@@ -17,5 +17,16 @@
         <module>chat2db-server-admin-api</module>
         <module>chat2db-server-common-api</module>
     </modules>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.pixee</groupId>
+                <artifactId>java-security-toolkit</artifactId>
+                <version>${versions.java-security-toolkit}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <properties>
+        <versions.java-security-toolkit>1.2.0</versions.java-security-toolkit>
+    </properties>
 </project>

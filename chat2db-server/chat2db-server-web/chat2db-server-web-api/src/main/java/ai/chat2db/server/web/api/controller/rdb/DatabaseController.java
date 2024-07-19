@@ -24,6 +24,7 @@ import ai.chat2db.server.web.api.controller.rdb.vo.MetaSchemaVO;
 import ai.chat2db.spi.model.Database;
 import ai.chat2db.spi.model.MetaSchema;
 import ai.chat2db.spi.model.Sql;
+import io.github.pixee.security.Newlines;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -118,7 +119,7 @@ public class DatabaseController {
     public void exportDatabase(@Valid @RequestBody DatabaseExportRequest request, HttpServletResponse response){
         String fileName = Objects.isNull(request.getSchemaName())?request.getDatabaseName() : request.getSchemaName();
         response.setContentType("text/sql");
-        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".sql");
+        response.setHeader("Content-disposition", Newlines.stripAll("attachment;filename*=utf-8''" + fileName + ".sql"));
         response.setCharacterEncoding("utf-8");
         DatabaseExportParam param = databaseConverter.request2param(request);
         try (PrintWriter printWriter = response.getWriter()) {

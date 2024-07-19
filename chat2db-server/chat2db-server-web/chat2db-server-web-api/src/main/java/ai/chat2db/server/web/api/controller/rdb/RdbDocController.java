@@ -17,6 +17,7 @@ import ai.chat2db.server.web.api.controller.rdb.request.DataExportRequest;
 import ai.chat2db.server.web.api.controller.rdb.vo.TableVO;
 import ai.chat2db.spi.model.Table;
 import cn.hutool.core.date.DatePattern;
+import io.github.pixee.security.Newlines;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +83,7 @@ public class RdbDocController {
         Class<?> targetClass = ExportServiceFactory.get(exportType.getCode());
         Constructor<?> constructor = targetClass.getDeclaredConstructor();
         DatabaseExportService databaseExportService = (DatabaseExportService) constructor.newInstance();
-        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + databaseExportService.getSuffix());
+        response.setHeader("Content-disposition", Newlines.stripAll("attachment;filename*=utf-8''" + fileName + databaseExportService.getSuffix()));
         response.setContentType(databaseExportService.getContentType());
         // Set up data collection
         databaseExportService.setExportList(tableVOS);
